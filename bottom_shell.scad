@@ -66,7 +66,7 @@ usbc_radius = 14.6 / 2;
 
 module lora_antenna_hole(base_w, base_l, base_h, inner_h, walls) {
     circular_hole(
-        pos = [base_w/2, base_l - walls/2, base_h + inner_h/2],
+        pos = [3*base_w/4, base_l - walls/2, base_h + inner_h/2],
         radius = sma_radius,
         depth = walls + 2,
         rotation = [90, 0, 0]
@@ -93,7 +93,7 @@ module button_hole(base_w, base_l, base_h, inner_h, walls) {
 
 module usbc_hole(base_w, base_l, base_h, inner_h, walls) {
     circular_hole(
-        pos = [3*base_w/4, base_l - walls/2, base_h + inner_h/2],
+        pos = [base_w/2, base_l - walls/2, base_h + inner_h/2],
         radius = usbc_radius,
         depth = walls + 2,
         rotation = [90, 0, 0]
