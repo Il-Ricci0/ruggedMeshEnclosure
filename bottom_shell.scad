@@ -1,3 +1,8 @@
+walls_size = 5;
+base_plate_w = 85;
+base_plate_l = 120;
+inner_h = 30;
+fix_render = .001;
 
 module battery() {
     battery_holder_w = 78;
@@ -8,11 +13,6 @@ module battery() {
 
 // battery();
 module bottom_shell() {
-    base_plate_w = 85;
-    base_plate_l = 120;
-
-    inner_h = 30;
-    walls_size = 5;
     hole_w = base_plate_w - (2 * walls_size);
     hole_l = base_plate_l - (2 * walls_size);
 
@@ -22,7 +22,7 @@ module bottom_shell() {
                 cube([base_plate_w, base_plate_l, inner_h+walls_size]);
 
             // Square hole in the center
-            translate([base_plate_w/2 - hole_w/2, base_plate_l/2 - hole_l/2, walls_size+1])
+            translate([base_plate_w/2 - hole_w/2, base_plate_l/2 - hole_l/2, walls_size+fix_render])
                 cube([hole_w, hole_l, inner_h]);
 
             // Antenna holes on back wall
@@ -46,6 +46,28 @@ module bottom_shell() {
     }
 }
 
+module lid() {
+    union() {
+        translate([walls_size/2, walls_size/2, inner_h+walls_size])
+           cube([base_plate_w-walls_size,base_plate_l-(walls_size/2)+fix_render,walls_size/2]);
+
+        difference() {
+            translate([walls_size/2, walls_size/2, inner_h+walls_size+(walls_size/2)])
+                cube([base_plate_w-walls_size,base_plate_l-(walls_size/2)+fix_render,(walls_size/2)]);
+            //left
+            translate([(walls_size/2)-fix_render,walls_size/2,inner_h+walls_size+(walls_size/2)])
+                cube([(walls_size/2)+fix_render,base_plate_l,(walls_size/2)+fix_render]);
+            //right
+             translate([base_plate_w-walls_size,walls_size/2,inner_h+walls_size+(walls_size/2)])
+                cube([(walls_size/2)+fix_render,base_plate_l,(walls_size/2)+fix_render]);
+            //bottom
+            translate([walls_size/2, (walls_size/2)-fix_render, inner_h+walls_size+(walls_size/2)])
+                cube([base_plate_w-walls_size,(walls_size/2)+fix_render, (walls_size/2)+fix_render]);
+        }
+    }
+}
+translate([0,150,0])
+lid();
 bottom_shell();
 
 // Reusable circular hole module
@@ -119,6 +141,9 @@ module button_ridge(base_w, base_h, inner_h, walls) {
         translate([base_w/2, ridge_depth/2, base_h + inner_h/2])
         rotate([90, 0, 0])
             cylinder(h = ridge_depth + 2, r = button_radius, center = true, $fn = 32);
+
+        translate([walls/2,walls+(walls/2),inner_h+walls])
+            cube([base_w-walls,(walls/2)+fix_render,walls/2]);
     }
 }
 
@@ -126,30 +151,32 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
     rail_height = 5;           // How tall the rail is
     rail_width = walls / 2;    // Width of the rail lip
     rail_clearance = 0.3;      // Clearance for sliding fit
+    button_ridge_depth = 10;   // Must match button_ridge ridge_depth
 
     top_z = base_h + inner_h;  // Z position of top of walls
+    rail_start_y = -button_ridge_depth + walls;  // Extend into button ridge area
 
     // Left rail - L-shaped profile running along Y axis
-    translate([0, 0, top_z])
+    translate([0, rail_start_y, top_z])
     difference() {
         // Outer block for left rail
-        cube([walls, base_l, rail_height]);
+        cube([walls, base_l - rail_start_y, rail_height]);
         // Channel cutout for cover to slide in
         translate([rail_width, -1, -1])
-            cube([walls - rail_width + rail_clearance, base_l + 2, rail_height - rail_width + 1]);
+            cube([walls - rail_width + rail_clearance, base_l - rail_start_y + 2, rail_height - rail_width + 1]);
     }
 
     // Right rail - L-shaped profile running along Y axis
-    translate([base_w - walls, 0, top_z])
+    translate([base_w - walls, rail_start_y, top_z])
     difference() {
         // Outer block for right rail
-        cube([walls, base_l, rail_height]);
+        cube([walls, base_l - rail_start_y, rail_height]);
         // Channel cutout for cover to slide in
         translate([-rail_clearance, -1, -1])
-            cube([walls - rail_width + rail_clearance, base_l + 2, rail_height - rail_width + 1]);
+            cube([walls - rail_width + rail_clearance, base_l - rail_start_y + 2, rail_height - rail_width + 1]);
     }
 
-    // Front stop - prevents cover from sliding out the front
-    translate([walls, 0, top_z])
+    // Front stop - prevents cover from sliding out the front (on the button ridge)
+    translate([walls, rail_start_y, top_z])
         cube([base_w - (2 * walls), rail_width, rail_height]);
 }
