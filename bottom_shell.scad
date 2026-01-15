@@ -103,7 +103,7 @@ module usbc_hole(base_w, base_l, base_h, inner_h, walls) {
 module button_ridge(base_w, base_h, inner_h, walls) {
     ridge_width = base_w;              // Full width of the shell
     ridge_depth = 10;                  // How far it extends from the wall
-    ridge_height = inner_h + walls;    // Full height of the shell
+    ridge_height = inner_h + (2*walls);    // Full height of the shell
 
     // Position attached to front wall
     translate([0, -ridge_depth + walls, 0])
@@ -123,19 +123,33 @@ module button_ridge(base_w, base_h, inner_h, walls) {
 }
 
 module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
-    ridge_thickness = walls / 2;
-    ridge_height = walls / 2;  // Height of the seal ridge
+    rail_height = 5;           // How tall the rail is
+    rail_width = walls / 2;    // Width of the rail lip
+    rail_clearance = 0.3;      // Clearance for sliding fit
 
-    // Position centered on top of the walls
-    translate([ridge_thickness, ridge_thickness, base_h + inner_h])
+    top_z = base_h + inner_h;  // Z position of top of walls
+
+    // Left rail - L-shaped profile running along Y axis
+    translate([0, 0, top_z])
     difference() {
-        // Outer perimeter - sits on outer edge of walls
-        cube([base_w - (2 * ridge_thickness), base_l - (2 * ridge_thickness), ridge_height]);
-
-        // Inner cutout - larger hole so ridge sits on top of walls
-        translate([ridge_thickness, ridge_thickness, -1])
-            cube([base_w - (4 * ridge_thickness),
-                  base_l - (4 * ridge_thickness),
-                  ridge_height + 2]);
+        // Outer block for left rail
+        cube([walls, base_l, rail_height]);
+        // Channel cutout for cover to slide in
+        translate([rail_width, -1, -1])
+            cube([walls - rail_width + rail_clearance, base_l + 2, rail_height - rail_width + 1]);
     }
+
+    // Right rail - L-shaped profile running along Y axis
+    translate([base_w - walls, 0, top_z])
+    difference() {
+        // Outer block for right rail
+        cube([walls, base_l, rail_height]);
+        // Channel cutout for cover to slide in
+        translate([-rail_clearance, -1, -1])
+            cube([walls - rail_width + rail_clearance, base_l + 2, rail_height - rail_width + 1]);
+    }
+
+    // Front stop - prevents cover from sliding out the front
+    translate([walls, 0, top_z])
+        cube([base_w - (2 * walls), rail_width, rail_height]);
 }
