@@ -39,6 +39,10 @@ module bottom_shell() {
         // Protective ridge around button
         color("green")
         button_ridge(base_plate_w, walls_size, inner_h, walls_size);
+
+        // Seal ridge at top for water sealing with top shell
+        color("green")
+        top_seal_ridge(base_plate_w, base_plate_l, walls_size, inner_h, walls_size);
     }
 }
 
@@ -115,5 +119,23 @@ module button_ridge(base_w, base_h, inner_h, walls) {
         translate([base_w/2, ridge_depth/2, base_h + inner_h/2])
         rotate([90, 0, 0])
             cylinder(h = ridge_depth + 2, r = button_radius, center = true, $fn = 32);
+    }
+}
+
+module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
+    ridge_thickness = walls / 2;
+    ridge_height = walls / 2;  // Height of the seal ridge
+
+    // Position centered on top of the walls
+    translate([ridge_thickness, ridge_thickness, base_h + inner_h])
+    difference() {
+        // Outer perimeter - sits on outer edge of walls
+        cube([base_w - (2 * ridge_thickness), base_l - (2 * ridge_thickness), ridge_height]);
+
+        // Inner cutout - larger hole so ridge sits on top of walls
+        translate([ridge_thickness, ridge_thickness, -1])
+            cube([base_w - (4 * ridge_thickness),
+                  base_l - (4 * ridge_thickness),
+                  ridge_height + 2]);
     }
 }
