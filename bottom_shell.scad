@@ -36,9 +36,15 @@ module bottom_shell() {
         translate([base_plate_w-walls_size-support_radius,base_plate_l-walls_size-support_radius,walls_size])
             hot_insert_support(inner_h);
 
-        rotate([0, 0, 90])
-            translate([base_plate_l-battery_holder_w-walls_size-support_diameter,-(battery_holder_l+walls_size),walls_size])
-                battery_holder();
+        components_offset = 10;
+        components_space = battery_holder_w + components_offset + board_w;
+        components_start = (base_plate_w - components_space) / 2;
+
+        translate([components_start, (base_plate_l-battery_holder_l)/2, walls_size])
+            battery_holder();
+        
+        translate([components_start + battery_holder_w + components_offset + 5,  (base_plate_l-board_l)/2, walls_size])
+            board_holder();
     }
 }
 

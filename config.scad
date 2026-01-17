@@ -25,16 +25,27 @@ screw_head_length = 2;
 screw_head_diameter = 5;
 
 hot_insert_length = 5.5;
-hot_insert_diameter = 4.5;
+hot_insert_diameter = 4;
 hot_insert_radius = hot_insert_diameter/2;
+
 support_diameter = hot_insert_diameter + 4;
 support_radius = support_diameter/2;
 
-battery_w = 78;
-battery_l = 21;
+// Battery holder dimensions
+battery_l = 78;
+battery_w = 21;
 battery_h = 21;
 battery_walls = 2;
 
 battery_holder_h = 10;
 battery_holder_w = battery_w + (2*battery_walls);
-battery_holder_l = battery_l + (2*battery_walls); 
+battery_holder_l = battery_l + (2*battery_walls);
+
+board_l = 60;
+board_w = 30;
+
+board_support_height = battery_holder_h;
+board_hot_insert_length = 4.5;
+board_hot_insert_diameter = 3;
+
+board_support_diameter = board_hot_insert_diameter + 4;
