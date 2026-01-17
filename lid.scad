@@ -29,10 +29,10 @@ module lid_screw_hole() {
     // Countersunk hole: cone for head + cylinder for shaft
     union() {
         // Countersink cone for screw head
-        cylinder(h = screw_head_length + fix_render, r1 = screw_diameter/2, r2 = screw_head_diameter/2, $fn = 32);
+        cylinder(h = screw_head_length + fix_render, r1 = screw_diameter/2, r2 = screw_head_diameter/2, $fn = 100);
 
         // Shaft hole through the lid
         translate([0, 0, -screw_length])
-            cylinder(h = screw_length + fix_render, r = screw_diameter/2, $fn = 32);
+            cylinder(h = screw_length + fix_render, r = screw_diameter/2, $fn = 100);
     }
 }

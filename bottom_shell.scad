@@ -6,8 +6,7 @@ module bottom_shell() {
 
     union() {
         difference() {
-            color("green")
-                cube([base_plate_w, base_plate_l, inner_h+walls_size]);
+            cube([base_plate_w, base_plate_l, inner_h+walls_size]);
 
             // Square hole in the center
             translate([base_plate_w/2 - hole_w/2, base_plate_l/2 - hole_l/2, walls_size+fix_render])
@@ -29,7 +28,7 @@ module bottom_shell() {
                 cube([fillet_r + fix_render, base_plate_l + 2*fix_render, fillet_r + fix_render]);
                 translate([fillet_r, 0, fillet_r])
                 rotate([-90, 0, 0])
-                    cylinder(h = base_plate_l + 2*fix_render, r = fillet_r, $fn = 32);
+                    cylinder(h = base_plate_l + 2*fix_render, r = fillet_r, $fn = 100);
             }
 
             // Round bottom right edge
@@ -38,7 +37,7 @@ module bottom_shell() {
                 cube([fillet_r + fix_render, base_plate_l + 2*fix_render, fillet_r + fix_render]);
                 translate([0, 0, fillet_r])
                 rotate([-90, 0, 0])
-                    cylinder(h = base_plate_l + 2*fix_render, r = fillet_r, $fn = 32);
+                    cylinder(h = base_plate_l + 2*fix_render, r = fillet_r, $fn = 100);
             }
 
             // Round bottom back edge
@@ -47,7 +46,7 @@ module bottom_shell() {
                 cube([base_plate_w + 2*fix_render, fillet_r + fix_render, fillet_r + fix_render]);
                 translate([0, 0, fillet_r])
                 rotate([0, 90, 0])
-                    cylinder(h = base_plate_w + 2*fix_render, r = fillet_r, $fn = 32);
+                    cylinder(h = base_plate_w + 2*fix_render, r = fillet_r, $fn = 100);
             }
 
             // Round back-left vertical edge
@@ -55,7 +54,7 @@ module bottom_shell() {
             difference() {
                 cube([fillet_r + fix_render, fillet_r + fix_render, inner_h + walls_size + 2*fix_render]);
                 translate([fillet_r, 0, 0])
-                    cylinder(h = inner_h + walls_size + 2*fix_render, r = fillet_r, $fn = 32);
+                    cylinder(h = inner_h + walls_size + 2*fix_render, r = fillet_r, $fn = 100);
             }
 
             // Round back-right vertical edge
@@ -63,16 +62,14 @@ module bottom_shell() {
             difference() {
                 cube([fillet_r + fix_render, fillet_r + fix_render, inner_h + walls_size + 2*fix_render]);
                 translate([0, 0, 0])
-                    cylinder(h = inner_h + walls_size + 2*fix_render, r = fillet_r, $fn = 32);
+                    cylinder(h = inner_h + walls_size + 2*fix_render, r = fillet_r, $fn = 100);
             }
         }
 
         // Protective ridge around button
-        color("green")
         button_ridge(base_plate_w, walls_size, inner_h, walls_size);
 
         // Seal ridge at top for water sealing with top shell
-        color("green")
         top_seal_ridge(base_plate_w, base_plate_l, walls_size, inner_h, walls_size);
 
         translate([walls_size+support_radius,base_plate_l-walls_size-support_radius,walls_size])
@@ -97,7 +94,7 @@ module bottom_shell() {
 module circular_hole(pos, radius, depth, rotation = [0, 0, 0]) {
     translate(pos)
     rotate(rotation)
-    cylinder(h = depth, r = radius, center = true, $fn = 32);
+    cylinder(h = depth, r = radius, center = true, $fn = 100);
 }
 
 module lora_antenna_hole(base_w, base_l, base_h, inner_h, walls) {
@@ -155,7 +152,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
         // Button hole through the ridge
         translate([base_w/2, ridge_depth/2, base_h + inner_h/2])
         rotate([90, 0, 0])
-            cylinder(h = ridge_depth + 2, r = button_radius, center = true, $fn = 32);
+            cylinder(h = ridge_depth + 2, r = button_radius, center = true, $fn = 100);
 
         translate([walls/2,walls+(walls/2),inner_h+walls])
             cube([base_w-walls,(walls/2)+fix_render,walls/2]);
@@ -166,7 +163,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
             cube([fillet_radius + fix_render, ridge_depth + 2*fix_render, fillet_radius + fix_render]);
             translate([fillet_radius, 0, fillet_radius])
             rotate([-90, 0, 0])
-                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 32);
+                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 100);
         }
 
         // Round the bottom right edge
@@ -175,7 +172,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
             cube([fillet_radius + fix_render, ridge_depth + 2*fix_render, fillet_radius + fix_render]);
             translate([0, 0, fillet_radius])
             rotate([-90, 0, 0])
-                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 32);
+                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 100);
         }
 
         // Round the top front edge
@@ -184,7 +181,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
             cube([ridge_width + 2*fix_render, fillet_radius + fix_render, fillet_radius + fix_render]);
             translate([0, fillet_radius, 0])
             rotate([0, 90, 0])
-                cylinder(h = ridge_width + 2*fix_render, r = fillet_radius, $fn = 32);
+                cylinder(h = ridge_width + 2*fix_render, r = fillet_radius, $fn = 100);
         }
 
         // Round the top left edge
@@ -193,7 +190,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
             cube([fillet_radius + fix_render, ridge_depth + 2*fix_render, fillet_radius + fix_render]);
             translate([fillet_radius, 0, 0])
             rotate([-90, 0, 0])
-                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 32);
+                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 100);
         }
 
         // Round the top right edge
@@ -202,7 +199,7 @@ module button_ridge(base_w, base_h, inner_h, walls) {
             cube([fillet_radius + fix_render, ridge_depth + 2*fix_render, fillet_radius + fix_render]);
             translate([0, 0, 0])
             rotate([-90, 0, 0])
-                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 32);
+                cylinder(h = ridge_depth + 2*fix_render, r = fillet_radius, $fn = 100);
         }
     }
 }
@@ -233,7 +230,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
             cube([fillet_r + fix_render, rail_length + 2*fix_render, fillet_r + fix_render]);
             translate([fillet_r, 0, 0])
             rotate([-90, 0, 0])
-                cylinder(h = rail_length + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = rail_length + 2*fix_render, r = fillet_r, $fn = 100);
         }
 
         // Round top back edge
@@ -242,7 +239,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
             cube([walls + 2*fix_render, fillet_r + fix_render, fillet_r + fix_render]);
             translate([0, 0, 0])
             rotate([0, 90, 0])
-                cylinder(h = walls + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = walls + 2*fix_render, r = fillet_r, $fn = 100);
         }
 
         // Round back-left vertical edge
@@ -250,7 +247,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
         difference() {
             cube([fillet_r + fix_render, fillet_r + fix_render, rail_height + 2*fix_render]);
             translate([fillet_r, 0, 0])
-                cylinder(h = rail_height + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = rail_height + 2*fix_render, r = fillet_r, $fn = 100);
         }
     }
 
@@ -269,7 +266,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
             cube([fillet_r + fix_render, rail_length + 2*fix_render, fillet_r + fix_render]);
             translate([0, 0, 0])
             rotate([-90, 0, 0])
-                cylinder(h = rail_length + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = rail_length + 2*fix_render, r = fillet_r, $fn = 100);
         }
 
         // Round top back edge
@@ -278,7 +275,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
             cube([walls + 2*fix_render, fillet_r + fix_render, fillet_r + fix_render]);
             translate([0, 0, 0])
             rotate([0, 90, 0])
-                cylinder(h = walls + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = walls + 2*fix_render, r = fillet_r, $fn = 100);
         }
 
         // Round back-right vertical edge
@@ -286,7 +283,7 @@ module top_seal_ridge(base_w, base_l, base_h, inner_h, walls) {
         difference() {
             cube([fillet_r + fix_render, fillet_r + fix_render, rail_height + 2*fix_render]);
             translate([0, 0, 0])
-                cylinder(h = rail_height + 2*fix_render, r = fillet_r, $fn = 32);
+                cylinder(h = rail_height + 2*fix_render, r = fillet_r, $fn = 100);
         }
     }
 
