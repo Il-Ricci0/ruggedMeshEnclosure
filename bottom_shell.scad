@@ -1,9 +1,3 @@
-walls_size = 5;
-base_plate_w = 85;
-base_plate_l = 120;
-inner_h = 30;
-fix_render = .001;
-
 module battery() {
     battery_holder_w = 78;
     battery_holder_l = 21;
@@ -46,45 +40,12 @@ module bottom_shell() {
     }
 }
 
-module lid() {
-    union() {
-        translate([walls_size/2, walls_size/2, inner_h+walls_size])
-           cube([base_plate_w-walls_size,base_plate_l-(walls_size/2)+fix_render,walls_size/2]);
-
-        difference() {
-            translate([walls_size/2, walls_size/2, inner_h+walls_size+(walls_size/2)])
-                cube([base_plate_w-walls_size,base_plate_l-(walls_size/2)+fix_render,(walls_size/2)]);
-            //left
-            translate([(walls_size/2)-fix_render,walls_size/2,inner_h+walls_size+(walls_size/2)])
-                cube([(walls_size/2)+fix_render,base_plate_l,(walls_size/2)+fix_render]);
-            //right
-             translate([base_plate_w-walls_size,walls_size/2,inner_h+walls_size+(walls_size/2)])
-                cube([(walls_size/2)+fix_render,base_plate_l,(walls_size/2)+fix_render]);
-            //bottom
-            translate([walls_size/2, (walls_size/2)-fix_render, inner_h+walls_size+(walls_size/2)])
-                cube([base_plate_w-walls_size,(walls_size/2)+fix_render, (walls_size/2)+fix_render]);
-        }
-    }
-}
-translate([0,150,0])
-lid();
-bottom_shell();
-
 // Reusable circular hole module
 module circular_hole(pos, radius, depth, rotation = [0, 0, 0]) {
     translate(pos)
     rotate(rotation)
     cylinder(h = depth, r = radius, center = true, $fn = 32);
 }
-
-// SMA connector hole (6.5mm diameter)
-sma_radius = 6.5 / 2;
-
-// Button hole (12mm diameter)
-button_radius = 12 / 2;
-
-// USB-C hole (14.6mm diameter)
-usbc_radius = 14.6 / 2;
 
 module lora_antenna_hole(base_w, base_l, base_h, inner_h, walls) {
     circular_hole(
