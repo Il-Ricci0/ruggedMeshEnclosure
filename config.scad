@@ -19,8 +19,13 @@ button_radius = 12 / 2;
 usbc_radius = 14.6 / 2;
 
 // Hot insert / screw dimensions
-screw_length = 14;
+screw_length = 16;
 screw_diameter = 3;
+screw_head_length = 2;
+screw_head_diameter = 5;
+
 hot_insert_length = 5.5;
 hot_insert_diameter = 4.5;
+hot_insert_radius = hot_insert_diameter/2;
 support_diameter = hot_insert_diameter + 4;
+support_radius = support_diameter/2;

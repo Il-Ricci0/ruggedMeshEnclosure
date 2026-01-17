@@ -37,6 +37,12 @@ module bottom_shell() {
         // Seal ridge at top for water sealing with top shell
         color("green")
         top_seal_ridge(base_plate_w, base_plate_l, walls_size, inner_h, walls_size);
+
+        translate([walls_size+support_radius,base_plate_l-walls_size-support_radius,walls_size])
+            hot_insert_support(inner_h);
+
+        translate([base_plate_w-walls_size-support_radius,base_plate_l-walls_size-support_radius,walls_size])
+            hot_insert_support(inner_h);
     }
 }
 
