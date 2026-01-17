@@ -29,3 +29,12 @@ hot_insert_diameter = 4.5;
 hot_insert_radius = hot_insert_diameter/2;
 support_diameter = hot_insert_diameter + 4;
 support_radius = support_diameter/2;
+
+battery_w = 78;
+battery_l = 21;
+battery_h = 21;
+battery_walls = 2;
+
+battery_holder_h = 10;
+battery_holder_w = battery_w + (2*battery_walls);
+battery_holder_l = battery_l + (2*battery_walls); 

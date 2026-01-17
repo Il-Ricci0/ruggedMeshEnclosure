@@ -1,11 +1,3 @@
-module battery() {
-    battery_holder_w = 78;
-    battery_holder_l = 21;
-    battery_holder_h = 21;
-    cube([battery_holder_w,battery_holder_l,2], center=true);
-}
-
-// battery();
 module bottom_shell() {
     hole_w = base_plate_w - (2 * walls_size);
     hole_l = base_plate_l - (2 * walls_size);
@@ -43,6 +35,10 @@ module bottom_shell() {
 
         translate([base_plate_w-walls_size-support_radius,base_plate_l-walls_size-support_radius,walls_size])
             hot_insert_support(inner_h);
+
+        rotate([0, 0, 90])
+            translate([base_plate_l-battery_holder_w-walls_size-support_diameter,-(battery_holder_l+walls_size),walls_size])
+                battery_holder();
     }
 }
 
