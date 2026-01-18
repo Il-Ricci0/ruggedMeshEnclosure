@@ -1,19 +1,20 @@
 module lid() {
+    tolerance = .25;
     difference() {
-        // Main lid body
-        translate([walls_size/2, walls_size/2, inner_h+walls_size])
-            cube([base_plate_w-walls_size, base_plate_l-(walls_size/2)+fix_render, walls_size]);
+        // Main lid body - reduced by tolerance and offset to center
+        translate([walls_size/2 + tolerance, walls_size/2 + tolerance, inner_h+walls_size])
+            cube([base_plate_w-walls_size-(2*tolerance), base_plate_l-(walls_size/2)+fix_render-tolerance, walls_size-tolerance]);
 
-        // Rail cutouts (top half only)
-        //left
-        translate([(walls_size/2)-fix_render, walls_size/2, inner_h+walls_size+(walls_size/2)])
-            cube([(walls_size/2)+fix_render, base_plate_l, (walls_size/2)+fix_render]);
-        //right
-        translate([base_plate_w-walls_size, walls_size/2, inner_h+walls_size+(walls_size/2)])
-            cube([(walls_size/2)+fix_render, base_plate_l, (walls_size/2)+fix_render]);
-        //front
-        translate([walls_size/2, (walls_size/2)-fix_render, inner_h+walls_size+(walls_size/2)])
-            cube([base_plate_w-walls_size, (walls_size/2)+fix_render, (walls_size/2)+fix_render]);
+        // Rail cutouts (top half only) - with tolerance for smooth sliding
+        //left - cutout extends further inward to thin the edge
+        translate([(walls_size/2)-fix_render, walls_size/2, inner_h+walls_size+(walls_size/2)-tolerance])
+            cube([(walls_size/2)+tolerance+fix_render, base_plate_l, (walls_size/2)+tolerance+fix_render]);
+        //right - cutout extends further inward to thin the edge
+        translate([base_plate_w-walls_size-tolerance, walls_size/2, inner_h+walls_size+(walls_size/2)-tolerance])
+            cube([(walls_size/2)+tolerance+fix_render, base_plate_l, (walls_size/2)+tolerance+fix_render]);
+        //front - cutout extends further inward to thin the edge
+        translate([walls_size/2, (walls_size/2)-fix_render, inner_h+walls_size+(walls_size/2)-tolerance])
+            cube([base_plate_w-walls_size, (walls_size/2)+tolerance+fix_render, (walls_size/2)+tolerance+fix_render]);
 
         // Back-left screw hole (aligned with hot insert support)
         translate([walls_size + support_radius, base_plate_l - walls_size - support_radius, inner_h + (2*walls_size) - screw_head_length])
